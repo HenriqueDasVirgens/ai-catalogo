@@ -8,3 +8,14 @@ app.add_middleware(
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"])
+
+@app.get("/")
+def root():
+    return {"status": "ok"}
+
+@app.get("/pergunta")
+def pergunta(q: str):
+    return {
+        "pergunta": q,
+        "resultado": "Teste"
+    }
