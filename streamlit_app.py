@@ -1,18 +1,18 @@
 import streamlit as st
 import requests
 
-st.title("Catálogo de Dados IA")
+st.title("Catálogo IA")
 
-pergunta = st.text_input("Faça uma pergunta")
+pergunta = st.text_input("Pergunta")
 
-if st.button("Enviar"):
+if pergunta:
 
     resposta = requests.get(
         "http://localhost:8000/pergunta",
         params={"q": pergunta}
     )
 
-    if resposta.status_code == 200:
-        st.write(resposta.json()["resposta"])
-    else:
-        st.error("Erro ao consultar a API")
+    dados = resposta.json()
+
+    st.write("### Resultado")
+    st.write(dados["resultado"])
