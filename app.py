@@ -1,11 +1,10 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-@app.get("/pergunta")
-def pergunta(q: str):
-
-    return {
-        "pergunta": q,
-        "resultado": f"Pesquisar catálogo por: {q}"
-    }
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"])
