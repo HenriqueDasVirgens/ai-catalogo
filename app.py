@@ -58,12 +58,21 @@ def chat(q: str):
     Responde em português de forma clara.
     """
 
-    resposta = perguntar_gemini(prompt)
+    try:
 
-    return {
-        "pergunta": q,
-        "resposta": resposta
-    }
+        resposta = perguntar_gemini(prompt)
+
+        return {
+            "pergunta": q,
+            "resposta": resposta
+        }
+
+    except Exception as e:
+
+        return {
+            "pergunta": q,
+            "resposta": "O modelo está temporariamente indisponível."
+        }
 
 @app.get("/relatorios")
 def listar_relatorios():
@@ -87,58 +96,3 @@ def listar_relatorios():
             for row in resultado
         ]
     
-@app.get("/chat")
-def chat(q: str):
-
-    with engine.connect() as conn:
-
-        resultado = conn.execute(
-            text("""
-                SELECT
-                    codigo_relatorio,
-                    nome_relatorio,
-                    descricao,
-                    modulo
-                FROM catalogo_relatorios
-                WHERE nome_relatorio ILIKE :q
-                   OR descricao ILIKE :q
-                   OR palavras_chave ILIKE :q
-            """),
-            {"q": f"%{q}%"}
-        )
-
-        dados = [
-            dict(row._mapping)
-            for row in resultado
-        ]
-
-    contexto = str(dados)
-
-    prompt = f"""
-    És um assistente especializado em catálogo de dados.
-
-    Contexto:
-    {contexto}
-
-    Pergunta:
-    {q}
-
-    Responde em português de Portugal de forma clara.
-    """
-
-    resposta = perguntar_gemini(prompt)
-
-    return {
-        "pergunta": q,
-        "resposta": resposta
-    }
-
-@app.get("/teste-db")
-def teste_db():
-
-    with engine.connect() as conn:
-        resultado = conn.execute(text("SELECT 1"))
-
-    return {
-        "status": "ok"
-    }
