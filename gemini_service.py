@@ -5,11 +5,11 @@ client = genai.Client(
     api_key=os.getenv("GEMINI_API_KEY")
 )
 
-def perguntar_gemini(prompt: str):
+def perguntar_gemini(pergunta: str):
 
     response = client.models.generate_content(
         model="gemini-2.5-flash",
-        contents=prompt
+        contents=pergunta
     )
 
     return response.text
