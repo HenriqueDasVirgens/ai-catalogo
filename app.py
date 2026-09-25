@@ -80,3 +80,13 @@ def pergunta(q: str):
         "pergunta": q,
         "resultado": dados
     }
+
+@app.get("/teste-db")
+def teste_db():
+
+    with engine.connect() as conn:
+        resultado = conn.execute(text("SELECT 1"))
+
+    return {
+        "status": "ok"
+    }
