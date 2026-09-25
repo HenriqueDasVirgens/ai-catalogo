@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const api = process.env.NEXT_PUBLIC_API_URL;
+const api = process.env.NEXT_PUBLIC_API_URL || "https://ai-catalogo.onrender.com";
 
 export default function Home() {
   const [pergunta, setPergunta] = useState("");
