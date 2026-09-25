@@ -87,8 +87,8 @@ def listar_relatorios():
             for row in resultado
         ]
     
-@app.get("/pergunta")
-def pergunta(q: str):
+@app.get("/chat")
+def chat(q: str):
 
     with engine.connect() as conn:
 
@@ -112,9 +112,25 @@ def pergunta(q: str):
             for row in resultado
         ]
 
+    contexto = str(dados)
+
+    prompt = f"""
+    És um assistente especializado em catálogo de dados.
+
+    Contexto:
+    {contexto}
+
+    Pergunta:
+    {q}
+
+    Responde em português de Portugal de forma clara.
+    """
+
+    resposta = perguntar_gemini(prompt)
+
     return {
         "pergunta": q,
-        "resultado": dados
+        "resposta": resposta
     }
 
 @app.get("/teste-db")
