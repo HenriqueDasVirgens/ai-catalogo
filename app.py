@@ -17,17 +17,20 @@ app.add_middleware(
 def root():
     return {"status": "ok"}
 
-@app.get("/tabelas")
-def listar_tabelas():
+@app.get("/relatorios")
+def listar_relatorios():
 
     with engine.connect() as conn:
 
         resultado = conn.execute(
             text("""
-                SELECT nome_tabela,
-                       descricao
-                FROM catalogo_tabelas
-                ORDER BY nome_tabela
+                SELECT
+                    id_relatorio,
+                    codigo_relatorio,
+                    nome_relatorio,
+                    descricao
+                FROM catalogo_relatorios
+                ORDER BY nome_relatorio
             """)
         )
 
@@ -35,26 +38,7 @@ def listar_tabelas():
             dict(row._mapping)
             for row in resultado
         ]
-
-@app.get("/tabela/{nome}")
-def obter_tabela(nome: str):
-
-    with engine.connect() as conn:
-
-        resultado = conn.execute(
-            text("""
-                SELECT *
-                FROM catalogo_tabelas
-                WHERE nome_tabela = :nome
-            """),
-            {"nome": nome}
-        ).fetchone()
-
-    if not resultado:
-        return {"erro": "Tabela não encontrada"}
-
-    return dict(resultado._mapping)
-
+    
 @app.get("/pergunta")
 def pergunta(q: str):
 
@@ -62,11 +46,15 @@ def pergunta(q: str):
 
         resultado = conn.execute(
             text("""
-                SELECT nome_tabela,
-                       descricao
-                FROM catalogo_tabelas
-                WHERE nome_tabela ILIKE :q
+                SELECT
+                    codigo_relatorio,
+                    nome_relatorio,
+                    descricao,
+                    modulo
+                FROM catalogo_relatorios
+                WHERE nome_relatorio ILIKE :q
                    OR descricao ILIKE :q
+                   OR palavras_chave ILIKE :q
             """),
             {"q": f"%{q}%"}
         )
