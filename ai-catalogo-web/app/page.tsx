@@ -2,38 +2,37 @@
 
 import { useState } from "react";
 
+const api = process.env.NEXT_PUBLIC_API_URL;
+
 export default function Home() {
   const [pergunta, setPergunta] = useState("");
   const [resposta, setResposta] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function pesquisar() {
-    if (!pergunta.trim()) return;
+  if (!pergunta.trim()) return;
 
-    setLoading(true);
-    setResposta("");
+  setLoading(true);
 
-    try {
-      const res = await fetch(
-        `https://ai-catalogo.onrender.com/pergunta?q=${encodeURIComponent(
-          pergunta
-        )}`
-      );
+  try {
+    const res = await fetch(
+      `${api}/pergunta?q=${encodeURIComponent(pergunta)}`
+    );
 
-      const dados = await res.json();
+    const dados = await res.json();
 
-      setResposta(
-        typeof dados.resultado === "string"
-          ? dados.resultado
-          : JSON.stringify(dados.resultado, null, 2)
-      );
-    } catch (error) {
-      setResposta("Erro ao ligar à API.");
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    setResposta(
+    dados.resultado
+      ? JSON.stringify(dados.resultado, null, 2)
+      : "Nenhum resultado encontrado."
+    );
+
+  } catch (error) {
+    setResposta("Erro ao ligar à API.");
+  } finally {
+    setLoading(false);
   }
+}
 
   return (
     <main className="min-h-screen bg-gray-100 p-10">
