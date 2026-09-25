@@ -8,7 +8,7 @@ client = genai.Client(
 def perguntar_gemini(pergunta: str):
 
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-3.5-flash-lite",
         contents=pergunta
     )
 
