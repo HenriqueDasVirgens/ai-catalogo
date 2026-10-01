@@ -25,9 +25,9 @@ export default function Home() {
       const dados = await res.json();
 
       setResposta(
-        dados.resposta || "Nenhuma resposta encontrada."
+        dados.resposta ||
+          "Nenhuma resposta encontrada."
       );
-
     } catch (error) {
       console.error(error);
 
@@ -40,14 +40,14 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 p-10">
-      <div className="max-w-5xl mx-auto bg-white rounded-xl shadow-lg p-8">
+    <main className="min-h-screen bg-slate-100 px-4 py-6 md:px-8 md:py-10">
+      <div className="max-w-6xl mx-auto bg-white rounded-2xl shadow-xl p-6 md:p-10">
 
-        <h1 className="text-5xl font-bold text-center mb-10">
+        <h1 className="text-4xl md:text-6xl font-bold text-center text-slate-900 mb-10">
           Catálogo IA
         </h1>
 
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           <input
             type="text"
             value={pergunta}
@@ -58,25 +58,69 @@ export default function Home() {
               }
             }}
             placeholder="Ex.: Que relatório mostra consultas?"
-            className="flex-1 border border-gray-300 rounded-lg p-4 text-lg"
+            className="
+              flex-1
+              border
+              border-slate-300
+              rounded-xl
+              p-4
+              text-base
+              md:text-lg
+              focus:outline-none
+              focus:ring-2
+              focus:ring-blue-500
+            "
           />
 
           <button
             onClick={pesquisar}
             disabled={loading}
-            className="bg-blue-600 text-white px-8 rounded-lg hover:bg-blue-700 disabled:bg-gray-400"
+            className="
+              bg-blue-600
+              text-white
+              font-semibold
+              px-8
+              py-4
+              rounded-xl
+              hover:bg-blue-700
+              transition
+              disabled:bg-slate-400
+              disabled:cursor-not-allowed
+            "
           >
             {loading ? "A pesquisar..." : "Perguntar"}
           </button>
         </div>
 
         <div className="mt-10">
-          <h2 className="text-3xl font-semibold mb-4">
+          <h2 className="text-2xl md:text-4xl font-bold text-slate-900 mb-4">
             Resposta
           </h2>
 
-          <div className="border rounded-lg p-6 min-h-[250px] bg-gray-50 whitespace-pre-wrap">
-            {resposta || "Faça uma pergunta sobre o catálogo."}
+          <div
+            className="
+              bg-slate-50
+              border
+              border-slate-200
+              rounded-xl
+              p-6
+              md:p-8
+              min-h-[250px]
+            "
+          >
+            <div
+              className="
+                whitespace-pre-wrap
+                break-words
+                text-slate-800
+                text-base
+                md:text-lg
+                leading-8
+              "
+            >
+              {resposta ||
+                "Faça uma pergunta sobre o catálogo de dados."}
+            </div>
           </div>
         </div>
 
