@@ -66,9 +66,13 @@ export default function Home() {
               p-4
               text-base
               md:text-lg
+              font-medium
+              text-slate-800
+              placeholder:text-slate-400
               focus:outline-none
               focus:ring-2
               focus:ring-blue-500
+              font-sans
             "
           />
 
@@ -84,8 +88,8 @@ export default function Home() {
               rounded-xl
               hover:bg-blue-700
               transition
+              shadow-md
               disabled:bg-slate-400
-              disabled:cursor-not-allowed
             "
           >
             {loading ? "A pesquisar..." : "Perguntar"}
@@ -115,7 +119,8 @@ export default function Home() {
                 text-slate-800
                 text-base
                 md:text-lg
-                leading-8
+                leading-9
+                font-normal
               "
             >
               {resposta ||
